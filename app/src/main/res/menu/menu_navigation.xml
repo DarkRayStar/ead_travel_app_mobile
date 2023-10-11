@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/home"
+        android:title="Profile"
+        android:icon="@drawable/usericon"/>
+    <item
+        android:id="@+id/book"
+        android:title="Booking"
+        android:icon="@drawable/bookicon"/>
+
+    <item
+        android:id="@+id/view"
+        android:title="History"
+        android:icon="@drawable/baseline_history_24"/>
+
+</menu>
