@@ -244,38 +244,30 @@ public class CreateBookingActivity extends AppCompatActivity {
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
-                // When a train name is selected, store the corresponding train id (dt) in a variable
                 selectedTrainId = dt.get(position);
-                // You can use selectedTrainId as needed for form submission
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parentView) {
-                // Handle the case where nothing is selected (if necessary)
             }
         });
     }
 
     private void showActionsAlert() {
-        // Create a concise alert message
         String alertMessage = "a. Create new reservations (reservation date within 30 days from booking date, maximum 4 reservations per reference ID).\n\n" +
                 "b. Update reservations (at least 5 days before the reservation date).\n\n" +
                 "c. Cancel reservations (at least 5 days before the reservation date).";
 
-        // Create an AlertDialog with the alert message
         AlertDialog.Builder builder = new AlertDialog.Builder(CreateBookingActivity.this);
         builder.setTitle("Booking Policy");
         builder.setMessage(alertMessage);
 
-        // Add an "OK" button to dismiss the dialog
         builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                // Do nothing, just close the dialog
             }
         });
 
-        // Create and show the dialog
         AlertDialog dialog = builder.create();
         dialog.show();
     }
