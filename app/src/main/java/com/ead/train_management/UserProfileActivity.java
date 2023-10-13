@@ -51,7 +51,9 @@ public class UserProfileActivity extends AppCompatActivity {
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
         bottomNavigationView.setSelectedItemId(R.id.home);
 
+
         bottomNavigationView.setOnNavigationItemSelectedListener(item -> {
+
             switch (item.getItemId()) {
                 case R.id.book:
                     startActivity(new Intent(getApplicationContext(), CreateBookingActivity.class));
@@ -66,6 +68,7 @@ public class UserProfileActivity extends AppCompatActivity {
             }
             return false;
         });
+
 
         firstName = findViewById(R.id.updateFirstName);
         lastName = findViewById(R.id.updateLastName);
@@ -96,15 +99,20 @@ public class UserProfileActivity extends AppCompatActivity {
         if (cursor.moveToFirst()) {
             nic = cursor.getString(cursor.getColumnIndex("nic"));
             uid = cursor.getString(cursor.getColumnIndex("uid"));
+
         }
+
 
         Call<userRes> data = loginService.getUserProfile(nic);
 
         data.enqueue(new Callback<userRes>() {
             @Override
             public void onResponse(Call<userRes> call1, Response<userRes> response1) {
+
                 if (response1.isSuccessful() && response1.body() != null) {
+
                     userRes res = response1.body();
+
                     firstName.setText(res.getFname());
                     lastName.setText(res.getLname());
                     phone.setText(res.getPhone());
@@ -116,6 +124,7 @@ public class UserProfileActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<userRes> call, Throwable t) {
+
                 Toast.makeText(UserProfileActivity.this, "Error", Toast.LENGTH_SHORT).show();
             }
         });
@@ -142,7 +151,7 @@ public class UserProfileActivity extends AppCompatActivity {
                     // Add a negative button to cancel
                     builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
                         @Override
-                        public void onClick(DialogInterface dialog, inwhich) {
+                        public void onClick(DialogInterface dialog, int which) {
                             // User canceled, do nothing
                         }
                     });
@@ -153,8 +162,11 @@ public class UserProfileActivity extends AppCompatActivity {
                 }
             }
         });
+
+
     }
 
+    // Method to update user profile data
     private void updateUserProfile() {
         userRes u = new userRes();
         u.setAcc(true);
@@ -185,6 +197,7 @@ public class UserProfileActivity extends AppCompatActivity {
         });
     }
 
+    // method to logout function with the confirmation alert
     public void LogOut(View view) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Confirm Logout");
@@ -202,7 +215,7 @@ public class UserProfileActivity extends AppCompatActivity {
         // Add a negative button to cancel
         builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
             @Override
-            public onClick(DialogInterface dialog, int which) {
+            public void onClick(DialogInterface dialog, int which) {
                 // User canceled, do nothing
             }
         });
@@ -219,6 +232,7 @@ public class UserProfileActivity extends AppCompatActivity {
         Intent intent = new Intent(this, LoginActivity.class);
         startActivity(intent);
     }
+
 
     public void Disable(View view) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -274,4 +288,5 @@ public class UserProfileActivity extends AppCompatActivity {
             }
         });
     }
+
 }
