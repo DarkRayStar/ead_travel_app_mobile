@@ -41,35 +41,44 @@ public class ViewBookingsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view);
 
+        // Initialize the bottom navigation view
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
         bottomNavigationView.setSelectedItemId(R.id.view);
 
+        // Set up item selection listener for the bottom navigation view
         bottomNavigationView.setOnNavigationItemSelectedListener(item -> {
-
             switch (item.getItemId()) {
                 case R.id.book:
+                    // Start the CreateBookingActivity
                     startActivity(new Intent(getApplicationContext(), CreateBookingActivity.class));
                     overridePendingTransition(0, 0);
                     return true;
                 case R.id.home:
+                    // Start the UserProfileActivity
                     startActivity(new Intent(getApplicationContext(), UserProfileActivity.class));
                     overridePendingTransition(0, 0);
                     return true;
                 case R.id.view:
+                    // Stay on the current activity
                     return true;
             }
             return false;
         });
 
+        // Initialize the BookingService for API calls
         bgService = RetrofitClient.getClient().create(BookingService.class);
+
+        // Initialize the DatabaseHelper and SQLiteDatabase for local database operations
         dbHelper = new DatabaseHelper(getApplicationContext());
         db = dbHelper.getWritableDatabase();
 
+        // Define the projection for retrieving "nic" and "uid" from the local database
         String[] projection = {
                 "nic",
                 "uid"
         };
 
+        // Perform a database query to get the user's "nic" and "uid"
         cursor = db.query(
                 "users",
                 projection,
@@ -80,26 +89,30 @@ public class ViewBookingsActivity extends AppCompatActivity {
                 null
         );
 
+        // Check if the cursor contains data and retrieve "nic" and "uid" if available
         if (cursor.moveToFirst()) {
             nic = cursor.getString(cursor.getColumnIndex("nic"));
             uid = cursor.getString(cursor.getColumnIndex("uid"));
         }
 
+        // Initialize the RecyclerView to display the list of bookings
         RecyclerView recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
+        // Make an API call to retrieve a list of bookings associated with the user's "nic"
         Call<List<viewBooking>> data = bgService.getBooking(nic);
 
         data.enqueue(new Callback<List<viewBooking>>() {
             @Override
             public void onResponse(Call<List<viewBooking>> call1, Response<List<viewBooking>> response1) {
-
                 if (response1.isSuccessful() && response1.body() != null) {
-
+                    // Retrieve the list of bookings from the API response
                     List<viewBooking> dataList = response1.body();
+
+                    // Remove bookings where "isCc" field is true (if needed)
                     dataList.removeIf(viewBooking::isCc);
 
-                    // Format the dates as yyyy-MM-dd
+                    // Format the dates in "yyyy-MM-dd" format
                     SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
                     for (viewBooking booking : dataList) {
                         try {
@@ -110,15 +123,18 @@ public class ViewBookingsActivity extends AppCompatActivity {
                         }
                     }
 
+                    // Create an adapter to populate the RecyclerView with the processed data
                     MyAdapter adapter = new MyAdapter(dataList, ViewBookingsActivity.this);
                     recyclerView.setAdapter(adapter);
                 } else {
+                    // Display a toast message if no active bookings are available
                     Toast.makeText(ViewBookingsActivity.this, "No Active Bookings Available", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(Call<List<viewBooking>> call, Throwable t) {
+                // Handle API call failure by displaying an error message
                 Toast.makeText(ViewBookingsActivity.this, "An Error Occurred", Toast.LENGTH_SHORT).show();
             }
         });

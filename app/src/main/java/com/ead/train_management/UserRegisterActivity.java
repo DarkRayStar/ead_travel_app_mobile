@@ -26,6 +26,8 @@ public class UserRegisterActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_register);
+
+        // Initialize UI elements and Retrofit service
         nic = findViewById(R.id.clientNIC);
         password = findViewById(R.id.password);
         firstName = findViewById(R.id.firstName);
@@ -34,31 +36,35 @@ public class UserRegisterActivity extends AppCompatActivity {
         regButton = findViewById(R.id.registerButton);
         lgService = RetrofitClient.getClient().create(LoginService.class);
 
+        // Set a click listener for the registration button
         regButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (nic.getText().toString().equals("") && password.getText().toString().equals("")
                         && firstName.getText().toString().equals("") && lastName.getText().toString().equals("")
                         && phone.getText().toString().equals("")) {
+                    // Show an alert dialog if any field is empty
                     showAlertDialog("Fill all details", "Please complete all fields.");
                 } else if (!isPasswordValid(password.getText().toString())) {
+                    // Show an alert dialog if the password is not valid
                     showPasswordAlertDialog("Password Validation Error", "Password must be longer " +
                             "than 8 digits and combined with at least one UPPERCASE, LOWERCASE, " +
                             "SPECIAL character, and a number");
                 } else {
-                    // Your registration logic here
-                    // ...
+                    // Perform registration logic here (you can add this logic)
                 }
             }
         });
     }
 
+    // Function to validate the password
     private boolean isPasswordValid(String password) {
         // Password should be at least 8 characters long with a combination of lowercase, uppercase, number and at least one special character
         String passwordPattern = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@#$%^&+=])(?=\\S+$).{8,}$";
         return password.matches(passwordPattern);
     }
 
+    // Function to show an alert dialog for password validation errors
     private void showPasswordAlertDialog(String title, String message) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle(title);
@@ -68,6 +74,7 @@ public class UserRegisterActivity extends AppCompatActivity {
         dialog.show();
     }
 
+    // Function to show a general alert dialog
     private void showAlertDialog(String title, String message) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle(title);
@@ -77,6 +84,7 @@ public class UserRegisterActivity extends AppCompatActivity {
         dialog.show();
     }
 
+    // Function to navigate to the login activity
     public void navigateToLogin(View view) {
         Intent intent = new Intent(this, LoginActivity.class);
         startActivity(intent);

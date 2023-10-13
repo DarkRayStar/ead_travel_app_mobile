@@ -70,10 +70,12 @@ public class CreateBookingActivity extends AppCompatActivity {
         hour = calendar.get(Calendar.HOUR_OF_DAY);
         minute = calendar.get(Calendar.MINUTE);
 
+        // Initialize and set up the bottom navigation
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
         bottomNavigationView.setSelectedItemId(R.id.book);
 
         bottomNavigationView.setOnNavigationItemSelectedListener(item -> {
+            // Handle bottom navigation item selection
             switch (item.getItemId()) {
                 case R.id.book:
                     return true;
@@ -89,6 +91,7 @@ public class CreateBookingActivity extends AppCompatActivity {
             return false;
         });
 
+        // Initialize UI elements
         clientName = findViewById(R.id.clientName);
         trainDropdown = findViewById(R.id.spinner);
         phone = findViewById(R.id.phoneNumber);
@@ -101,11 +104,13 @@ public class CreateBookingActivity extends AppCompatActivity {
         dbHelper = new DatabaseHelper(getApplicationContext());
         dbObj = dbHelper.getWritableDatabase();
 
+        // Define the projection for database query
         String[] projection = {
                 "nic",
                 "uid"
         };
 
+        // Query the database to fetch user data
         Cursor cursor = dbObj.query(
                 "users",
                 projection,
@@ -116,11 +121,13 @@ public class CreateBookingActivity extends AppCompatActivity {
                 null
         );
 
+        // Check if cursor contains data and extract user information
         if (cursor.moveToFirst()) {
             nic = cursor.getString(cursor.getColumnIndex("nic"));
             uid = cursor.getString(cursor.getColumnIndex("uid"));
         }
 
+        // Make an API call to fetch the list of available trains
         Call<List<train>> data = bookingService.getTrain();
 
         data.enqueue(new Callback<List<train>>() {
@@ -147,6 +154,7 @@ public class CreateBookingActivity extends AppCompatActivity {
             }
         });
 
+        // Set up the OnClickListener for the "info" button
         infoButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -154,12 +162,14 @@ public class CreateBookingActivity extends AppCompatActivity {
             }
         });
 
+        // Set up the OnClickListener for the "create booking" button
         createBookingButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (clientName.getText().toString().equals("") && email.getText().toString().equals("") && phone.getText().toString().equals("")) {
                     Toast.makeText(CreateBookingActivity.this, "Fill all details", Toast.LENGTH_SHORT).show();
                 } else {
+                    // Extract the selected train name from the spinner
                     String selectedValue = "";
                     if (trainDropdown.getSelectedItem() != null) {
                         selectedValue = trainDropdown.getSelectedItem().toString();
@@ -236,6 +246,7 @@ public class CreateBookingActivity extends AppCompatActivity {
         }
     };
 
+    // Function to populate the train spinner
     private void populateSpinner(List<String> trainNames, final List<String> dt) {
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, trainNames);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -253,6 +264,7 @@ public class CreateBookingActivity extends AppCompatActivity {
         });
     }
 
+    // Function to display the booking policy information
     private void showActionsAlert() {
         String alertMessage = "a. Create new reservations (reservation date within 30 days from booking date, maximum 4 reservations per reference ID).\n\n" +
                 "b. Update reservations (at least 5 days before the reservation date).\n\n" +
@@ -265,6 +277,7 @@ public class CreateBookingActivity extends AppCompatActivity {
         builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+                // User acknowledged the booking policy
             }
         });
 
@@ -272,6 +285,7 @@ public class CreateBookingActivity extends AppCompatActivity {
         dialog.show();
     }
 
+    // Function to create a booking
     private void createBooking() {
         String selectedValue = "";
         if (trainDropdown.getSelectedItem() != null) {
