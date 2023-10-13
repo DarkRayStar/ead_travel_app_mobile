@@ -22,7 +22,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class MainActivity extends AppCompatActivity {
+public class LoginActivity extends AppCompatActivity {
     private LoginService lgService;
     EditText username;
     EditText password;
@@ -31,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_login);
         username = findViewById(R.id.username);
         password = findViewById(R.id.password);
         loginButton = findViewById(R.id.loginButton);
@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
 
         loginButton.setOnClickListener(view -> {
             if (username.getText().toString().equals("") && password.getText().toString().equals("")) {
-                Toast.makeText(MainActivity.this, "Fill all details", Toast.LENGTH_SHORT).show();
+                Toast.makeText(LoginActivity.this, "Fill all details", Toast.LENGTH_SHORT).show();
             } else {
                 login loginRequest = new login();
                 loginRequest.setNic(username.getText().toString());
@@ -75,39 +75,39 @@ public class MainActivity extends AppCompatActivity {
                                                 if (newRowId != -1) {
                                                     Intent intent = new Intent(getApplicationContext(), CreateBookingActivity.class);
                                                     startActivity(intent);
-                                                    Toast.makeText(MainActivity.this, "Login Successful", Toast.LENGTH_SHORT).show();
+                                                    Toast.makeText(LoginActivity.this, "Login Successful", Toast.LENGTH_SHORT).show();
                                                 } else {
-                                                    Toast.makeText(MainActivity.this, "Error", Toast.LENGTH_SHORT).show();
+                                                    Toast.makeText(LoginActivity.this, "Error", Toast.LENGTH_SHORT).show();
                                                 }
 
                                             } else {
-                                                Toast.makeText(MainActivity.this, "Account is Disabled or Network Error", Toast.LENGTH_SHORT).show();
+                                                Toast.makeText(LoginActivity.this, "Account is Disabled or Network Error", Toast.LENGTH_SHORT).show();
                                             }
 
                                         } else {
-                                            Toast.makeText(MainActivity.this, "Error", Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(LoginActivity.this, "Error", Toast.LENGTH_SHORT).show();
                                         }
                                     }
 
                                     @Override
                                     public void onFailure(Call<userRes> call, Throwable t) {
 
-                                        Toast.makeText(MainActivity.this, "Error", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(LoginActivity.this, "Error", Toast.LENGTH_SHORT).show();
                                     }
                                 });
                             } else {
-                                Toast.makeText(MainActivity.this, "Wrong Account Type", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(LoginActivity.this, "Wrong Account Type", Toast.LENGTH_SHORT).show();
                             }
                         } else {
 
-                            Toast.makeText(MainActivity.this, "Account is Disabled or Network Error", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(LoginActivity.this, "Account is Disabled or Network Error", Toast.LENGTH_SHORT).show();
                         }
                     }
 
                     @Override
                     public void onFailure(Call<loginRes> call, Throwable t) {
 
-                        Toast.makeText(MainActivity.this, "Failed to log", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(LoginActivity.this, "Failed to log", Toast.LENGTH_SHORT).show();
                     }
                 });
 

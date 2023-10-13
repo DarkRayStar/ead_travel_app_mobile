@@ -10,8 +10,8 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.ead.train_management.models.disable;
@@ -34,19 +34,19 @@ public class UserProfileActivity extends AppCompatActivity {
     private DatabaseHelper dbHelper;
     private SQLiteDatabase db;
     private Cursor cursor;
-    EditText fname;
-    EditText lname;
+    EditText firstName;
+    EditText lastName;
     EditText phone;
-    Button upButton;
-    Button rmButton;
-    Button lgButton;
+    ImageButton updateButton;
+    ImageButton disableButton;
+    ImageButton logoutButton;
     EditText date;
 
     @SuppressLint({"Range", "NonConstantResourceId"})
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_profile);
+        setContentView(R.layout.activity_user_profile);
 
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
         bottomNavigationView.setSelectedItemId(R.id.home);
@@ -70,13 +70,13 @@ public class UserProfileActivity extends AppCompatActivity {
         });
 
 
-        fname = findViewById(R.id.fname2);
-        lname = findViewById(R.id.lname2);
-        phone = findViewById(R.id.phone2);
+        firstName = findViewById(R.id.updateFirstName);
+        lastName = findViewById(R.id.updateLastName);
+        phone = findViewById(R.id.updatePhone);
         date = findViewById(R.id.date2);
-        upButton = findViewById(R.id.upButton);
-        rmButton = findViewById(R.id.rmButton);
-        lgButton = findViewById(R.id.lgButton);
+        updateButton = findViewById(R.id.updateButton);
+        disableButton = findViewById(R.id.removeButton);
+        logoutButton = findViewById(R.id.logoutButton);
         loginService = RetrofitClient.getClient().create(LoginService.class);
         dbHelper = new DatabaseHelper(getApplicationContext());
         db = dbHelper.getWritableDatabase();
@@ -113,8 +113,8 @@ public class UserProfileActivity extends AppCompatActivity {
 
                     userRes res = response1.body();
 
-                    fname.setText(res.getFname());
-                    lname.setText(res.getLname());
+                    firstName.setText(res.getFname());
+                    lastName.setText(res.getLname());
                     phone.setText(res.getPhone());
                     date.setText(res.getDate());
                 } else {
@@ -129,10 +129,10 @@ public class UserProfileActivity extends AppCompatActivity {
             }
         });
 
-        upButton.setOnClickListener(new View.OnClickListener() {
+        updateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (fname.getText().toString().equals("") && lname.getText().toString().equals("") && phone.getText().toString().equals("")) {
+                if (firstName.getText().toString().equals("") && lastName.getText().toString().equals("") && phone.getText().toString().equals("")) {
                     Toast.makeText(UserProfileActivity.this, "Fill all details", Toast.LENGTH_SHORT).show();
                 } else {
                     AlertDialog.Builder builder = new AlertDialog.Builder(UserProfileActivity.this);
@@ -171,8 +171,8 @@ public class UserProfileActivity extends AppCompatActivity {
         u.setAcc(true);
         u.setNic(nic);
         u.setPhone(phone.getText().toString());
-        u.setFname(fname.getText().toString());
-        u.setLname(lname.getText().toString());
+        u.setFname(firstName.getText().toString());
+        u.setLname(lastName.getText().toString());
         u.setDate(date.getText().toString());
         u.setId(uid);
 
@@ -227,7 +227,7 @@ public class UserProfileActivity extends AppCompatActivity {
         int deletedRows = db.delete("users", null, null);
         cursor.close();
         dbHelper.close();
-        Intent intent = new Intent(this, MainActivity.class);
+        Intent intent = new Intent(this, LoginActivity.class);
         startActivity(intent);
     }
 
@@ -269,7 +269,12 @@ public class UserProfileActivity extends AppCompatActivity {
             public void onResponse(Call<userRes> call1, Response<userRes> response1) {
                 if (response1.isSuccessful() && response1.body() != null) {
                     // Account disabled successfully, you can handle this as needed
-                    LogOut(view);
+                    int deletedRows = db.delete("users", null, null);
+                    cursor.close();
+                    dbHelper.close();
+                    Intent intent = new Intent(UserProfileActivity.this, LoginActivity.class);
+                    startActivity(intent);
+                    Toast.makeText(UserProfileActivity.this, "Account Disabled", Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(UserProfileActivity.this, "Error", Toast.LENGTH_SHORT).show();
                 }

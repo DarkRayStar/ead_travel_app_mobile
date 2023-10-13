@@ -42,15 +42,15 @@ public class CreateBookingActivity extends AppCompatActivity {
     private String nic = "";
     private String uid = "";
     private DatabaseHelper dbHelper;
-    private SQLiteDatabase db;
-    EditText name;
+    private SQLiteDatabase dbObj;
+    EditText clientName;
     EditText email;
-    EditText num;
+    EditText noOfTickets;
     EditText date;
     EditText phone;
-    Button addButton;
+    Button createBookingButton;
     ImageView infoButton;
-    Spinner spinner;
+    Spinner trainDropdown;
     private int year, month, day, hour, minute;
     static final int DATE_DIALOG_ID = 999;
 
@@ -89,24 +89,24 @@ public class CreateBookingActivity extends AppCompatActivity {
             return false;
         });
 
-        name = findViewById(R.id.name3);
-        spinner = findViewById(R.id.spinner);
-        phone = findViewById(R.id.phone3);
-        date = findViewById(R.id.date3);
-        email = findViewById(R.id.email3);
-        num = findViewById(R.id.num3);
-        addButton = findViewById(R.id.addButton);
+        clientName = findViewById(R.id.clientName);
+        trainDropdown = findViewById(R.id.spinner);
+        phone = findViewById(R.id.phoneNumber);
+        date = findViewById(R.id.bookingDate);
+        email = findViewById(R.id.clientEmail);
+        noOfTickets = findViewById(R.id.numberOfTickets);
+        createBookingButton = findViewById(R.id.createBooking);
         infoButton = findViewById(R.id.infoButton);
         bookingService = RetrofitClient.getClient().create(BookingService.class);
         dbHelper = new DatabaseHelper(getApplicationContext());
-        db = dbHelper.getWritableDatabase();
+        dbObj = dbHelper.getWritableDatabase();
 
         String[] projection = {
                 "nic",
                 "uid"
         };
 
-        Cursor cursor = db.query(
+        Cursor cursor = dbObj.query(
                 "users",
                 projection,
                 null,
@@ -154,22 +154,22 @@ public class CreateBookingActivity extends AppCompatActivity {
             }
         });
 
-        addButton.setOnClickListener(new View.OnClickListener() {
+        createBookingButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (name.getText().toString().equals("") && email.getText().toString().equals("") && phone.getText().toString().equals("")) {
+                if (clientName.getText().toString().equals("") && email.getText().toString().equals("") && phone.getText().toString().equals("")) {
                     Toast.makeText(CreateBookingActivity.this, "Fill all details", Toast.LENGTH_SHORT).show();
                 } else {
                     String selectedValue = "";
-                    if (spinner.getSelectedItem() != null) {
-                        selectedValue = spinner.getSelectedItem().toString();
+                    if (trainDropdown.getSelectedItem() != null) {
+                        selectedValue = trainDropdown.getSelectedItem().toString();
                     }
 
                     // Extract only the date portion from the reservation date
                     String reservationDate = date.getText().toString().split("T")[0];
 
                     // Get the number of tickets from the 'num' EditText
-                    String numberOfTickets = num.getText().toString();
+                    String numberOfTickets = noOfTickets.getText().toString();
 
                     // Create the confirmation message with date and number of tickets
                     String confirmationMessage = "Train Name: " + selectedValue +
@@ -231,17 +231,17 @@ public class CreateBookingActivity extends AppCompatActivity {
             day = selectedDay;
 
             // Display the selected date in the EditText
-            String dateTime = String.format("%04d-%02d-%02dT%02d:%02d", year, month + 1, day, hour, minute);
-            date.setText(dateTime);
+            String dateStr = String.format("%04d-%02d-%02d", year, month + 1, day);
+            date.setText(dateStr);
         }
     };
 
     private void populateSpinner(List<String> trainNames, final List<String> dt) {
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, trainNames);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(adapter);
+        trainDropdown.setAdapter(adapter);
 
-        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        trainDropdown.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
                 // When a train name is selected, store the corresponding train id (dt) in a variable
@@ -282,8 +282,8 @@ public class CreateBookingActivity extends AppCompatActivity {
 
     private void createBooking() {
         String selectedValue = "";
-        if (spinner.getSelectedItem() != null) {
-            selectedValue = spinner.getSelectedItem().toString();
+        if (trainDropdown.getSelectedItem() != null) {
+            selectedValue = trainDropdown.getSelectedItem().toString();
         }
 
         booking u = new booking();
@@ -294,8 +294,8 @@ public class CreateBookingActivity extends AppCompatActivity {
         u.setDate(date.getText().toString());
         u.setPhone(phone.getText().toString());
         u.setEmail(email.getText().toString());
-        u.setName(name.getText().toString());
-        u.setPassno(Integer.parseInt(num.getText().toString()));
+        u.setName(clientName.getText().toString());
+        u.setPassno(Integer.parseInt(noOfTickets.getText().toString()));
 
         Call<String> call = bookingService.createBooking(u);
         call.enqueue(new Callback<String>() {

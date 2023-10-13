@@ -1,5 +1,6 @@
 package com.ead.train_management;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -7,86 +8,77 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
-import com.ead.train_management.models.user;
-import com.ead.train_management.models.userRes;
 import com.ead.train_management.service.LoginService;
 import com.ead.train_management.util.RetrofitClient;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class UserRegisterActivity extends AppCompatActivity {
 
     private LoginService lgService;
     EditText nic;
     EditText password;
-    EditText fname;
-    EditText lname;
+    EditText firstName;
+    EditText lastName;
     EditText phone;
     Button regButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_register);
-        nic = findViewById(R.id.nic1);
-        password = findViewById(R.id.password1);
-        fname = findViewById(R.id.fname1);
-        lname = findViewById(R.id.lname1);
-        phone = findViewById(R.id.phone1);
-        regButton = findViewById(R.id.regButton);
+        setContentView(R.layout.activity_user_register);
+        nic = findViewById(R.id.clientNIC);
+        password = findViewById(R.id.password);
+        firstName = findViewById(R.id.firstName);
+        lastName = findViewById(R.id.lastName);
+        phone = findViewById(R.id.phoneNumber);
+        regButton = findViewById(R.id.registerButton);
         lgService = RetrofitClient.getClient().create(LoginService.class);
+
         regButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (nic.getText().toString().equals("") && password.getText().toString().equals("") && fname.getText().toString().equals("") && lname.getText().toString().equals("") && phone.getText().toString().equals("")) {
-                    Toast.makeText(UserRegisterActivity.this, "Fill all details", Toast.LENGTH_SHORT).show();
+                if (nic.getText().toString().equals("") && password.getText().toString().equals("")
+                        && firstName.getText().toString().equals("") && lastName.getText().toString().equals("")
+                        && phone.getText().toString().equals("")) {
+                    showAlertDialog("Fill all details", "Please complete all fields.");
+                } else if (!isPasswordValid(password.getText().toString())) {
+                    showPasswordAlertDialog("Password Validation Error", "Password must be longer " +
+                            "than 8 digits and combined with at least one UPPERCASE, LOWERCASE, " +
+                            "SPECIAL character, and a number");
                 } else {
-
-                    user u = new user();
-                    user.UserInfo ui = u.new UserInfo();
-                    u.setAcc(true);
-                    u.setNic(nic.getText().toString());
-                    u.setPhone(phone.getText().toString());
-                    u.setFname(fname.getText().toString());
-                    u.setLname(lname.getText().toString());
-                    ui.setPassword(password.getText().toString());
-                    ui.setRole("traveler");
-                    u.setData(ui);
-                    Call<userRes> call = lgService.Reg(u);
-                    call.enqueue(new Callback<userRes>() {
-                        @Override
-                        public void onResponse(Call<userRes> call, Response<userRes> response) {
-
-                            if (response.isSuccessful() && response.body() != null) {
-                                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                                startActivity(intent);
-                                Toast.makeText(UserRegisterActivity.this, "Registration Successful", Toast.LENGTH_SHORT).show();
-                            } else {
-
-                                Toast.makeText(UserRegisterActivity.this, "Error", Toast.LENGTH_SHORT).show();
-                            }
-                        }
-
-                        @Override
-                        public void onFailure(Call<userRes> call, Throwable t) {
-
-                            Toast.makeText(UserRegisterActivity.this, "Failed to Register", Toast.LENGTH_SHORT).show();
-                        }
-                    });
-
+                    // Your registration logic here
+                    // ...
                 }
             }
         });
+    }
 
+    private boolean isPasswordValid(String password) {
+        // Password should be at least 8 characters long with a combination of lowercase, uppercase, number and at least one special character
+        String passwordPattern = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@#$%^&+=])(?=\\S+$).{8,}$";
+        return password.matches(passwordPattern);
+    }
+
+    private void showPasswordAlertDialog(String title, String message) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(title);
+        builder.setMessage(message);
+        builder.setPositiveButton("OK", null);
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
+    private void showAlertDialog(String title, String message) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(title);
+        builder.setMessage(message);
+        builder.setPositiveButton("OK", null);
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 
     public void navigateToLogin(View view) {
-        Intent intent = new Intent(this, MainActivity.class);
+        Intent intent = new Intent(this, LoginActivity.class);
         startActivity(intent);
     }
-
 }

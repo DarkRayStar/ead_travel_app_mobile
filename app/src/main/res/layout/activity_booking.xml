@@ -55,7 +55,7 @@
             </LinearLayout>
 
             <EditText
-                android:id="@+id/name3"
+                android:id="@+id/clientName"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_marginTop="8dp"
@@ -65,7 +65,7 @@
                 android:padding="8dp" />
 
             <EditText
-                android:id="@+id/email3"
+                android:id="@+id/clientEmail"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_marginTop="8dp"
@@ -75,7 +75,7 @@
                 android:padding="8dp" />
 
             <EditText
-                android:id="@+id/phone3"
+                android:id="@+id/phoneNumber"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_marginTop="8dp"
@@ -85,7 +85,7 @@
                 android:padding="8dp" />
 
             <EditText
-                android:id="@+id/num3"
+                android:id="@+id/numberOfTickets"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_marginTop="8dp"
@@ -95,15 +95,14 @@
                 android:padding="8dp" />
 
             <EditText
-                android:id="@+id/date3"
+                android:id="@+id/bookingDate"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_marginTop="8dp"
                 android:background="#E0E0E0"
                 android:hint="Date and Time"
-                android:inputType="datetime"
+                android:inputType="none"
                 android:padding="8dp" />
-
 
             <Spinner
                 android:id="@+id/spinner"
@@ -112,7 +111,7 @@
                 android:layout_marginTop="16dp" />
 
             <Button
-                android:id="@+id/addButton"
+                android:id="@+id/createBooking"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:layout_marginTop="16dp"

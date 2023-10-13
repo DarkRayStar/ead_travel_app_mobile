@@ -7,7 +7,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/backgoundimage"
-    tools:context=".UserRegisterActivity">
+    tools:context=".LoginActivity">
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
@@ -27,17 +27,17 @@
 
 
             <TextView
-                android:id="@+id/regText"
+                android:id="@+id/loginText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/register"
+                android:text="@string/login"
                 android:textAlignment="center"
                 android:textColor="#2196F3"
                 android:textSize="36sp"
                 android:textStyle="bold" />
 
             <EditText
-                android:id="@+id/nic1"
+                android:id="@+id/username"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_marginTop="32dp"
@@ -50,7 +50,7 @@
                 android:textColorHint="#5C6BC0" />
 
             <EditText
-                android:id="@+id/password1"
+                android:id="@+id/password"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_marginTop="20dp"
@@ -62,66 +62,29 @@
                 android:textColor="@color/black"
                 android:textColorHint="#5C6BC0" />
 
-            <EditText
-                android:id="@+id/fname1"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_marginTop="20dp"
-                android:background="#E0E0E0"
-                android:drawablePadding="8dp"
-                android:hint="@string/first_name"
-                android:inputType="text"
-                android:padding="8dp"
-                android:textColor="@color/black"
-                android:textColorHint="#5C6BC0" />
-            <EditText
-                android:id="@+id/lname1"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_marginTop="20dp"
-                android:background="#E0E0E0"
-                android:drawablePadding="8dp"
-                android:hint="@string/last_name"
-                android:inputType="text"
-                android:padding="8dp"
-                android:textColor="@color/black"
-                android:textColorHint="#5C6BC0" />
-
-            <EditText
-                android:id="@+id/phone1"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_marginTop="20dp"
-                android:background="#E0E0E0"
-                android:drawablePadding="8dp"
-                android:hint="@string/phone_number"
-                android:inputType="phone"
-                android:padding="8dp"
-                android:textColor="@color/black"
-                android:textColorHint="#5C6BC0" />
-
             <Button
-                android:id="@+id/regButton"
+                android:id="@+id/loginButton"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:layout_marginTop="30dp"
                 android:background="#2196F3"
-                android:text="@string/register"
+                android:text="@string/login"
                 android:textColor="#FFFFFF"
                 android:textSize="18sp"
                 android:gravity="center" />
 
             <TextView
-                android:id="@+id/signupText1"
+                android:id="@+id/signupText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="20dp"
-                android:onClick="navigateToLogin"
+                android:onClick="navigateToReg"
                 android:padding="20dp"
-                android:text="@string/already_registered"
+                android:text="@string/not_yet_registered"
                 android:textAlignment="center"
                 android:textColor="#000000"
+                android:textColorHint="#E4D7D7"
                 android:textSize="18sp" />
 
         </LinearLayout>

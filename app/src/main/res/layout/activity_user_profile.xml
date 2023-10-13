@@ -35,7 +35,7 @@
                 android:textStyle="bold" />
 
             <EditText
-                android:id="@+id/fname2"
+                android:id="@+id/updateFirstName"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_marginTop="20dp"
@@ -48,7 +48,7 @@
                 android:textColorHint="#5C6BC0" />
 
             <EditText
-                android:id="@+id/lname2"
+                android:id="@+id/updateLastName"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_marginTop="20dp"
@@ -61,7 +61,7 @@
                 android:textColorHint="#5C6BC0" />
 
             <EditText
-                android:id="@+id/phone2"
+                android:id="@+id/updatePhone"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_marginTop="20dp"
@@ -87,40 +87,44 @@
                 android:textColorHint="#5C6BC0"
                 android:visibility="gone" />
 
-            <Button
-                android:id="@+id/upButton"
+            <!-- ImageButton views for the four square icons -->
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
-                android:layout_marginTop="30dp"
-                android:background="#2196F3"
-                android:gravity="center"
-                android:text="@string/update"
-                android:textColor="#FFFFFF"
-                android:textSize="18sp" />
+                android:orientation="horizontal"
+                android:layout_marginTop="30dp">
 
-            <Button
-                android:id="@+id/rmButton"
-                android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:layout_marginTop="16dp"
-                android:background="#E67784"
-                android:gravity="center"
-                android:onClick="Disable"
-                android:text="@string/disable"
-                android:textColor="#FFFFFF"
-                android:textSize="18sp" />
+                <ImageButton
+                    android:id="@+id/updateButton"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@android:color/transparent"
+                    android:src="@drawable/resource_edit"
+                    android:scaleType="fitCenter" />
 
-            <Button
-                android:id="@+id/lgButton"
-                android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:layout_marginTop="16dp"
-                android:background="#95F786"
-                android:gravity="center"
-                android:onClick="LogOut"
-                android:text="@string/log_out"
-                android:textColor="#FFFFFF"
-                android:textSize="18sp" />
+                <ImageButton
+                    android:id="@+id/removeButton"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@android:color/transparent"
+                    android:src="@drawable/resource_lock"
+                    android:onClick="Disable"
+                    android:scaleType="fitCenter" />
+
+                <ImageButton
+                    android:id="@+id/logoutButton"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@android:color/transparent"
+                    android:onClick="LogOut"
+                    android:src="@drawable/resource_switch"
+                    android:scaleType="fitCenter" />
+
+                <!-- Add one more ImageButton here -->
+            </LinearLayout>
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 

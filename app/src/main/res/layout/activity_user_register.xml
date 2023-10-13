@@ -7,7 +7,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/backgoundimage"
-    tools:context=".MainActivity">
+    tools:context=".UserRegisterActivity">
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
@@ -27,17 +27,17 @@
 
 
             <TextView
-                android:id="@+id/loginText"
+                android:id="@+id/regTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/login"
+                android:text="@string/register"
                 android:textAlignment="center"
                 android:textColor="#2196F3"
                 android:textSize="36sp"
                 android:textStyle="bold" />
 
             <EditText
-                android:id="@+id/username"
+                android:id="@+id/clientNIC"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_marginTop="32dp"
@@ -62,29 +62,66 @@
                 android:textColor="@color/black"
                 android:textColorHint="#5C6BC0" />
 
+            <EditText
+                android:id="@+id/firstName"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="20dp"
+                android:background="#E0E0E0"
+                android:drawablePadding="8dp"
+                android:hint="@string/first_name"
+                android:inputType="text"
+                android:padding="8dp"
+                android:textColor="@color/black"
+                android:textColorHint="#5C6BC0" />
+            <EditText
+                android:id="@+id/lastName"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="20dp"
+                android:background="#E0E0E0"
+                android:drawablePadding="8dp"
+                android:hint="@string/last_name"
+                android:inputType="text"
+                android:padding="8dp"
+                android:textColor="@color/black"
+                android:textColorHint="#5C6BC0" />
+
+            <EditText
+                android:id="@+id/phoneNumber"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="20dp"
+                android:background="#E0E0E0"
+                android:drawablePadding="8dp"
+                android:hint="@string/phone_number"
+                android:inputType="phone"
+                android:padding="8dp"
+                android:textColor="@color/black"
+                android:textColorHint="#5C6BC0" />
+
             <Button
-                android:id="@+id/loginButton"
+                android:id="@+id/registerButton"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:layout_marginTop="30dp"
                 android:background="#2196F3"
-                android:text="@string/login"
+                android:text="@string/register"
                 android:textColor="#FFFFFF"
                 android:textSize="18sp"
                 android:gravity="center" />
 
             <TextView
-                android:id="@+id/signupText"
+                android:id="@+id/signUpText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="20dp"
-                android:onClick="navigateToReg"
+                android:onClick="navigateToLogin"
                 android:padding="20dp"
-                android:text="@string/not_yet_registered"
+                android:text="@string/already_registered"
                 android:textAlignment="center"
                 android:textColor="#000000"
-                android:textColorHint="#E4D7D7"
                 android:textSize="18sp" />
 
         </LinearLayout>

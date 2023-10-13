@@ -83,7 +83,6 @@ public class ViewBookingsActivity extends AppCompatActivity {
         if (cursor.moveToFirst()) {
             nic = cursor.getString(cursor.getColumnIndex("nic"));
             uid = cursor.getString(cursor.getColumnIndex("uid"));
-
         }
 
         RecyclerView recyclerView = findViewById(R.id.recyclerView);
