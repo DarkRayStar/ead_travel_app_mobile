@@ -1,10 +1,10 @@
 package com.ead.train_management.service;
 
-import com.ead.train_management.models.disable;
-import com.ead.train_management.models.login;
-import com.ead.train_management.models.loginRes;
-import com.ead.train_management.models.user;
-import com.ead.train_management.models.userRes;
+import com.ead.train_management.models.disableAccountModel;
+import com.ead.train_management.models.loginModel;
+import com.ead.train_management.models.loginResponseModel;
+import com.ead.train_management.models.userModel;
+import com.ead.train_management.models.userResponseModel;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -20,19 +20,19 @@ import retrofit2.http.Path;
 public interface LoginService {
 
     @POST("UserManagement/")
-    Call<loginRes> Login(@Body login lg);
+    Call<loginResponseModel> Login(@Body loginModel lg);
 
     @GET("api/TravelerManagement/{id}")
-    Call<userRes> getUserProfile(@Path("id") String nic);
+    Call<userResponseModel> getUserProfile(@Path("id") String nic);
 
     @POST("api/TravelerManagement/")
-    Call<userRes> Reg(@Body user u);
+    Call<userResponseModel> Reg(@Body userModel u);
 
     @POST("api/TravelerManagement/")
-    Call<userRes> Update(@Body userRes u);
+    Call<userResponseModel> Update(@Body userResponseModel u);
 
     @PUT("api/TravelerManagement/{id}")
-    Call<userRes> Dis(@Path("id") String nic ,@Body disable db);
+    Call<userResponseModel> Dis(@Path("id") String nic , @Body disableAccountModel db);
 
 }
 

@@ -14,8 +14,8 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
-import com.ead.train_management.models.disable;
-import com.ead.train_management.models.userRes;
+import com.ead.train_management.models.disableAccountModel;
+import com.ead.train_management.models.userResponseModel;
 import com.ead.train_management.service.LoginService;
 import com.ead.train_management.util.DatabaseHelper;
 import com.ead.train_management.util.RetrofitClient;
@@ -103,15 +103,15 @@ public class UserProfileActivity extends AppCompatActivity {
         }
 
 
-        Call<userRes> data = loginService.getUserProfile(nic);
+        Call<userResponseModel> data = loginService.getUserProfile(nic);
 
-        data.enqueue(new Callback<userRes>() {
+        data.enqueue(new Callback<userResponseModel>() {
             @Override
-            public void onResponse(Call<userRes> call1, Response<userRes> response1) {
+            public void onResponse(Call<userResponseModel> call1, Response<userResponseModel> response1) {
 
                 if (response1.isSuccessful() && response1.body() != null) {
 
-                    userRes res = response1.body();
+                    userResponseModel res = response1.body();
 
                     firstName.setText(res.getFname());
                     lastName.setText(res.getLname());
@@ -123,7 +123,7 @@ public class UserProfileActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<userRes> call, Throwable t) {
+            public void onFailure(Call<userResponseModel> call, Throwable t) {
 
                 Toast.makeText(UserProfileActivity.this, "Error", Toast.LENGTH_SHORT).show();
             }
@@ -166,9 +166,9 @@ public class UserProfileActivity extends AppCompatActivity {
 
     }
 
-    // Method to update user profile data
+    // Method to update userModel profile data
     private void updateUserProfile() {
-        userRes u = new userRes();
+        userResponseModel u = new userResponseModel();
         u.setAcc(true);
         u.setNic(nic);
         u.setPhone(phone.getText().toString());
@@ -177,10 +177,10 @@ public class UserProfileActivity extends AppCompatActivity {
         u.setDate(date.getText().toString());
         u.setId(uid);
 
-        Call<userRes> call = loginService.Update(u);
-        call.enqueue(new Callback<userRes>() {
+        Call<userResponseModel> call = loginService.Update(u);
+        call.enqueue(new Callback<userResponseModel>() {
             @Override
-            public void onResponse(Call<userRes> call, Response<userRes> response) {
+            public void onResponse(Call<userResponseModel> call, Response<userResponseModel> response) {
                 if (response.isSuccessful() && response.body() != null) {
                     // Profile updated successfully, you can handle this as needed
                     Intent intent = new Intent(getApplicationContext(), UserProfileActivity.class);
@@ -191,7 +191,7 @@ public class UserProfileActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<userRes> call, Throwable t) {
+            public void onFailure(Call<userResponseModel> call, Throwable t) {
                 Toast.makeText(UserProfileActivity.this, "Failed to Update Profile", Toast.LENGTH_SHORT).show();
             }
         });
@@ -237,13 +237,13 @@ public class UserProfileActivity extends AppCompatActivity {
     public void Disable(View view) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Confirm Disable");
-        builder.setMessage("Are you sure you want to disable your account?");
+        builder.setMessage("Are you sure you want to disableAccountModel your account?");
 
         // Add a positive button to confirm disabling
         builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                // User confirmed, disable the account
+                // User confirmed, disableAccountModel the account
                 disableAccount(view);
             }
         });
@@ -262,13 +262,13 @@ public class UserProfileActivity extends AppCompatActivity {
     }
 
     private void disableAccount(View view) {
-        disable d = new disable();
+        disableAccountModel d = new disableAccountModel();
         d.setAcc(false);
-        Call<userRes> data = loginService.Dis(nic, d);
+        Call<userResponseModel> data = loginService.Dis(nic, d);
 
-        data.enqueue(new Callback<userRes>() {
+        data.enqueue(new Callback<userResponseModel>() {
             @Override
-            public void onResponse(Call<userRes> call1, Response<userRes> response1) {
+            public void onResponse(Call<userResponseModel> call1, Response<userResponseModel> response1) {
                 if (response1.isSuccessful() && response1.body() != null) {
                     // Account disabled successfully, you can handle this as needed
                     int deletedRows = db.delete("users", null, null);
@@ -283,7 +283,7 @@ public class UserProfileActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<userRes> call, Throwable t) {
+            public void onFailure(Call<userResponseModel> call, Throwable t) {
                 Toast.makeText(UserProfileActivity.this, "Error", Toast.LENGTH_SHORT).show();
             }
         });

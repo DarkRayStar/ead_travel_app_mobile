@@ -21,8 +21,8 @@ import android.widget.Toast;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.ead.train_management.models.booking;
-import com.ead.train_management.models.train;
+import com.ead.train_management.models.bookingModel;
+import com.ead.train_management.models.trainModel;
 import com.ead.train_management.service.BookingService;
 import com.ead.train_management.util.DatabaseHelper;
 import com.ead.train_management.util.RetrofitClient;
@@ -110,7 +110,7 @@ public class CreateBookingActivity extends AppCompatActivity {
                 "uid"
         };
 
-        // Query the database to fetch user data
+        // Query the database to fetch userModel data
         Cursor cursor = dbObj.query(
                 "users",
                 projection,
@@ -121,24 +121,24 @@ public class CreateBookingActivity extends AppCompatActivity {
                 null
         );
 
-        // Check if cursor contains data and extract user information
+        // Check if cursor contains data and extract userModel information
         if (cursor.moveToFirst()) {
             nic = cursor.getString(cursor.getColumnIndex("nic"));
             uid = cursor.getString(cursor.getColumnIndex("uid"));
         }
 
         // Make an API call to fetch the list of available trains
-        Call<List<train>> data = bookingService.getTrain();
+        Call<List<trainModel>> data = bookingService.getTrain();
 
-        data.enqueue(new Callback<List<train>>() {
+        data.enqueue(new Callback<List<trainModel>>() {
             @Override
-            public void onResponse(Call<List<train>> call1, Response<List<train>> response1) {
+            public void onResponse(Call<List<trainModel>> call1, Response<List<trainModel>> response1) {
                 if (response1.isSuccessful() && response1.body() != null) {
-                    List<train> responseData = response1.body();
+                    List<trainModel> responseData = response1.body();
                     List<String> dt = new ArrayList<>();
                     List<String> trainNames = new ArrayList<>();
 
-                    for (train d : responseData) {
+                    for (trainModel d : responseData) {
                         dt.add(d.getTidc());
                         trainNames.add(d.getTrainName());
                     }
@@ -149,7 +149,7 @@ public class CreateBookingActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<List<train>> call, Throwable t) {
+            public void onFailure(Call<List<trainModel>> call, Throwable t) {
                 Toast.makeText(CreateBookingActivity.this, "Error", Toast.LENGTH_SHORT).show();
             }
         });
@@ -162,14 +162,14 @@ public class CreateBookingActivity extends AppCompatActivity {
             }
         });
 
-        // Set up the OnClickListener for the "create booking" button
+        // Set up the OnClickListener for the "create bookingModel" button
         createBookingButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (clientName.getText().toString().equals("") && email.getText().toString().equals("") && phone.getText().toString().equals("")) {
                     Toast.makeText(CreateBookingActivity.this, "Fill all details", Toast.LENGTH_SHORT).show();
                 } else {
-                    // Extract the selected train name from the spinner
+                    // Extract the selected trainModel name from the spinner
                     String selectedValue = "";
                     if (trainDropdown.getSelectedItem() != null) {
                         selectedValue = trainDropdown.getSelectedItem().toString();
@@ -191,11 +191,11 @@ public class CreateBookingActivity extends AppCompatActivity {
                     builder.setTitle("Confirm Booking");
                     builder.setMessage(confirmationMessage);
 
-                    // Add a positive button to confirm booking
+                    // Add a positive button to confirm bookingModel
                     builder.setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            // User confirmed, create the booking
+                            // User confirmed, create the bookingModel
                             createBooking();
                         }
                     });
@@ -246,7 +246,7 @@ public class CreateBookingActivity extends AppCompatActivity {
         }
     };
 
-    // Function to populate the train spinner
+    // Function to populate the trainModel spinner
     private void populateSpinner(List<String> trainNames, final List<String> dt) {
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, trainNames);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -264,9 +264,9 @@ public class CreateBookingActivity extends AppCompatActivity {
         });
     }
 
-    // Function to display the booking policy information
+    // Function to display the bookingModel policy information
     private void showActionsAlert() {
-        String alertMessage = "a. Create new reservations (reservation date within 30 days from booking date, maximum 4 reservations per reference ID).\n\n" +
+        String alertMessage = "a. Create new reservations (reservation date within 30 days from bookingModel date, maximum 4 reservations per reference ID).\n\n" +
                 "b. Update reservations (at least 5 days before the reservation date).\n\n" +
                 "c. Cancel reservations (at least 5 days before the reservation date).";
 
@@ -277,7 +277,7 @@ public class CreateBookingActivity extends AppCompatActivity {
         builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                // User acknowledged the booking policy
+                // User acknowledged the bookingModel policy
             }
         });
 
@@ -285,14 +285,14 @@ public class CreateBookingActivity extends AppCompatActivity {
         dialog.show();
     }
 
-    // Function to create a booking
+    // Function to create a bookingModel
     private void createBooking() {
         String selectedValue = "";
         if (trainDropdown.getSelectedItem() != null) {
             selectedValue = trainDropdown.getSelectedItem().toString();
         }
 
-        booking u = new booking();
+        bookingModel u = new bookingModel();
         u.setRfid(nic);
         u.setTid(uid);
         u.setStatus(false);

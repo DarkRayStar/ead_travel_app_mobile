@@ -3,7 +3,7 @@ package com.ead.train_management.models;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class booking {
+public class bookingModel {
 
      @SerializedName("referenceId")
      @Expose
@@ -20,7 +20,7 @@ public class booking {
      @Expose
      private String  phone;
 
-     @SerializedName("train")
+     @SerializedName("trainModel")
      @Expose
      private String  train;
 

@@ -84,7 +84,7 @@ public class UserRegisterActivity extends AppCompatActivity {
         dialog.show();
     }
 
-    // Function to navigate to the login activity
+    // Function to navigate to the loginModel activity
     public void navigateToLogin(View view) {
         Intent intent = new Intent(this, LoginActivity.class);
         startActivity(intent);

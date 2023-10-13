@@ -1,35 +1,26 @@
 package com.ead.train_management.models;
-
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+
 /**
- * Login response model
+ * Login model
  */
 
-public class loginRes {
-
-    @SerializedName("id")
-    @Expose
-    private String id;
-
-    @SerializedName("nic")
+public class loginModel {
+    @SerializedName("Nic")
     @Expose
     private String nic;
 
-    @SerializedName("password")
+    @SerializedName("Password")
     @Expose
     private String password;
 
-    @SerializedName("role")
-    @Expose
-    private String role;
-
-    public String getId() {
-        return id;
+    public loginModel() {
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public loginModel(String nic, String password) {
+        this.nic = nic;
+        this.password = password;
     }
 
     public String getNic() {
@@ -46,13 +37,5 @@ public class loginRes {
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    public String getRole() {
-        return role;
-    }
-
-    public void setRole(String role) {
-        this.role = role;
     }
 }

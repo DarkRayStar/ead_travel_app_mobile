@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName;
  * User response model
  */
 
-public class userRes {
+public class userResponseModel {
      @SerializedName("id")
      @Expose
      private String id;

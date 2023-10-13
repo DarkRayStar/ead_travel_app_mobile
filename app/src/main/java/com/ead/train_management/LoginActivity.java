@@ -11,9 +11,9 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.ead.train_management.models.login;
-import com.ead.train_management.models.loginRes;
-import com.ead.train_management.models.userRes;
+import com.ead.train_management.models.loginModel;
+import com.ead.train_management.models.loginResponseModel;
+import com.ead.train_management.models.userResponseModel;
 import com.ead.train_management.service.LoginService;
 import com.ead.train_management.util.DatabaseHelper;
 import com.ead.train_management.util.RetrofitClient;
@@ -44,28 +44,28 @@ public class LoginActivity extends AppCompatActivity {
             if (username.getText().toString().equals("") && password.getText().toString().equals("")) {
                 Toast.makeText(LoginActivity.this, "Fill all details", Toast.LENGTH_SHORT).show();
             } else {
-                login loginRequest = new login();
-                loginRequest.setNic(username.getText().toString());
-                loginRequest.setPassword(password.getText().toString());
+                loginModel loginModelRequest = new loginModel();
+                loginModelRequest.setNic(username.getText().toString());
+                loginModelRequest.setPassword(password.getText().toString());
 
-                // Make a login API call
-                Call<loginRes> call = lgService.Login(loginRequest);
-                call.enqueue(new Callback<loginRes>() {
+                // Make a loginModel API call
+                Call<loginResponseModel> call = lgService.Login(loginModelRequest);
+                call.enqueue(new Callback<loginResponseModel>() {
                     @Override
-                    public void onResponse(Call<loginRes> call, Response<loginRes> response) {
+                    public void onResponse(Call<loginResponseModel> call, Response<loginResponseModel> response) {
                         if (response.isSuccessful() && response.body() != null) {
-                            loginRes userResponse = response.body();
+                            loginResponseModel userResponse = response.body();
                             if (userResponse.getRole().equals("traveler")) {
-                                // If the user is a traveler, fetch their profile data
-                                Call<userRes> data = lgService.getUserProfile(userResponse.getNic());
+                                // If the userModel is a traveler, fetch their profile data
+                                Call<userResponseModel> data = lgService.getUserProfile(userResponse.getNic());
 
-                                data.enqueue(new Callback<userRes>() {
+                                data.enqueue(new Callback<userResponseModel>() {
                                     @Override
-                                    public void onResponse(Call<userRes> call1, Response<userRes> response1) {
+                                    public void onResponse(Call<userResponseModel> call1, Response<userResponseModel> response1) {
                                         if (response1.isSuccessful() && response1.body() != null) {
-                                            userRes res = response1.body();
+                                            userResponseModel res = response1.body();
                                             if (res.isAcc()) {
-                                                // If the account is active, insert user data into the local database
+                                                // If the account is active, insert userModel data into the local database
                                                 ContentValues values = new ContentValues();
                                                 values.put("nic", userResponse.getNic());
                                                 values.put("uid", res.getId());
@@ -88,7 +88,7 @@ public class LoginActivity extends AppCompatActivity {
                                     }
 
                                     @Override
-                                    public void onFailure(Call<userRes> call, Throwable t) {
+                                    public void onFailure(Call<userResponseModel> call, Throwable t) {
                                         Toast.makeText(LoginActivity.this, "Error", Toast.LENGTH_SHORT).show();
                                     }
                                 });
@@ -101,7 +101,7 @@ public class LoginActivity extends AppCompatActivity {
                     }
 
                     @Override
-                    public void onFailure(Call<loginRes> call, Throwable t) {
+                    public void onFailure(Call<loginResponseModel> call, Throwable t) {
                         Toast.makeText(LoginActivity.this, "Failed to log", Toast.LENGTH_SHORT).show();
                     }
                 });

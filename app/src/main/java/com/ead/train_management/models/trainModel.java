@@ -3,7 +3,7 @@ package com.ead.train_management.models;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class train {
+public class trainModel {
     @SerializedName("id")
     @Expose
     private String tidc;

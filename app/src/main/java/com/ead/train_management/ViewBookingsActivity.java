@@ -11,7 +11,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.widget.Toast;
 
-import com.ead.train_management.models.viewBooking;
+import com.ead.train_management.models.viewBookingModel;
 import com.ead.train_management.service.BookingService;
 import com.ead.train_management.util.DatabaseHelper;
 import com.ead.train_management.util.MyAdapter;
@@ -78,7 +78,7 @@ public class ViewBookingsActivity extends AppCompatActivity {
                 "uid"
         };
 
-        // Perform a database query to get the user's "nic" and "uid"
+        // Perform a database query to get the userModel's "nic" and "uid"
         cursor = db.query(
                 "users",
                 projection,
@@ -99,22 +99,22 @@ public class ViewBookingsActivity extends AppCompatActivity {
         RecyclerView recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        // Make an API call to retrieve a list of bookings associated with the user's "nic"
-        Call<List<viewBooking>> data = bgService.getBooking(nic);
+        // Make an API call to retrieve a list of bookings associated with the userModel's "nic"
+        Call<List<viewBookingModel>> data = bgService.getBooking(nic);
 
-        data.enqueue(new Callback<List<viewBooking>>() {
+        data.enqueue(new Callback<List<viewBookingModel>>() {
             @Override
-            public void onResponse(Call<List<viewBooking>> call1, Response<List<viewBooking>> response1) {
+            public void onResponse(Call<List<viewBookingModel>> call1, Response<List<viewBookingModel>> response1) {
                 if (response1.isSuccessful() && response1.body() != null) {
                     // Retrieve the list of bookings from the API response
-                    List<viewBooking> dataList = response1.body();
+                    List<viewBookingModel> dataList = response1.body();
 
                     // Remove bookings where "isCc" field is true (if needed)
-                    dataList.removeIf(viewBooking::isCc);
+                    dataList.removeIf(viewBookingModel::isCc);
 
                     // Format the dates in "yyyy-MM-dd" format
                     SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-                    for (viewBooking booking : dataList) {
+                    for (viewBookingModel booking : dataList) {
                         try {
                             Date parsedDate = dateFormat.parse(booking.getDate());
                             booking.setDate(dateFormat.format(parsedDate));
@@ -133,7 +133,7 @@ public class ViewBookingsActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<List<viewBooking>> call, Throwable t) {
+            public void onFailure(Call<List<viewBookingModel>> call, Throwable t) {
                 // Handle API call failure by displaying an error message
                 Toast.makeText(ViewBookingsActivity.this, "An Error Occurred", Toast.LENGTH_SHORT).show();
             }

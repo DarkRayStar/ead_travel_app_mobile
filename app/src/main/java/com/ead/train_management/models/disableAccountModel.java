@@ -3,8 +3,8 @@ package com.ead.train_management.models;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class rmBooking {
-    @SerializedName("isCancelled")
+public class disableAccountModel {
+    @SerializedName("AccStatus")
     @Expose
     private boolean acc;
 

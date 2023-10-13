@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName;
  * User model
  */
 
-public class user {
+public class userModel {
 
     @SerializedName("Nic")
     @Expose

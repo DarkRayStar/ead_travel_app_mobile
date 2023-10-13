@@ -14,8 +14,8 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.ead.train_management.R;
-import com.ead.train_management.models.rmBooking;
-import com.ead.train_management.models.viewBooking;
+import com.ead.train_management.models.cancelBookingModel;
+import com.ead.train_management.models.viewBookingModel;
 import com.ead.train_management.service.BookingService;
 import com.ead.train_management.ViewBookingsActivity;
 
@@ -27,11 +27,11 @@ import retrofit2.Response;
 
 public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
 
-    private List<viewBooking> dataList;
+    private List<viewBookingModel> dataList;
     private BookingService bookingService;
     private ViewBookingsActivity viewBookingsActivity;
 
-    public MyAdapter(List<viewBooking> dataList, ViewBookingsActivity viewBookingsActivity) {
+    public MyAdapter(List<viewBookingModel> dataList, ViewBookingsActivity viewBookingsActivity) {
         this.dataList = dataList;
         this.viewBookingsActivity = viewBookingsActivity;
     }
@@ -47,7 +47,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, @SuppressLint("RecyclerView") int position) {
-        viewBooking item = dataList.get(position);
+        viewBookingModel item = dataList.get(position);
         holder.textViewName.setText("Name: " + item.getName());
         holder.textViewName2.setText("Date: " + item.getDate());
         holder.textViewName3.setText("Tickets: " + String.valueOf(item.getNum()));
@@ -55,13 +55,13 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
             // Create a confirmation dialog before deleting
             AlertDialog.Builder builder = new AlertDialog.Builder(viewBookingsActivity);
             builder.setTitle("Confirm Cancellation");
-            builder.setMessage("Are you sure you want to cancel this booking?");
+            builder.setMessage("Are you sure you want to cancel this bookingModel?");
 
             builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                 boolean violateFlag = true;
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    rmBooking d = new rmBooking();
+                    cancelBookingModel d = new cancelBookingModel();
                     d.setAcc(true);
                     Call<String> data = bookingService.removeBooking(item.getId());
 
