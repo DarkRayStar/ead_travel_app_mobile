@@ -29,7 +29,7 @@ class JsonInterceptor implements Interceptor {
 public class RetrofitClient {
 
     private static Retrofit retrofit = null;
-    private static final String BASE_URL = "ead-train-booking-web-service.azurewebsites.net/";
+    private static final String BASE_URL = "https://ead-train-booking-web-service.azurewebsites.net/";
     public static Retrofit getClient(){
         OkHttpClient okHttpClient = new OkHttpClient.Builder()
                 .addInterceptor(new JsonInterceptor())
