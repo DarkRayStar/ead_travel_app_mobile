@@ -55,6 +55,7 @@ public class CreateBookingActivity extends AppCompatActivity {
     static final int DATE_DIALOG_ID = 999;
 
     String selectedTrainId = "";
+    String selectedTrain = "Select the train";
 
     @SuppressLint("Range")
     @Override
@@ -171,6 +172,8 @@ public class CreateBookingActivity extends AppCompatActivity {
             public void onClick(View view) {
                 if (clientName.getText().toString().equals("") && email.getText().toString().equals("") && phone.getText().toString().equals("")) {
                     Toast.makeText(CreateBookingActivity.this, "Fill all details", Toast.LENGTH_SHORT).show();
+                } else if (selectedTrain.equals("Select the train")) {
+                    Toast.makeText(CreateBookingActivity.this, "Please select a train", Toast.LENGTH_SHORT).show();
                 } else {
                     // Extract the selected trainModel name from the spinner
                     String selectedValue = "";
@@ -198,16 +201,7 @@ public class CreateBookingActivity extends AppCompatActivity {
                     builder.setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            // Check if the user selected a train other than the default "Select the train"
-                            String selectedTrain = trainDropdown.getSelectedItem().toString();
-                            if ("Select the train".equals(selectedTrain)) {
-                                Toast.makeText(CreateBookingActivity.this, "Please select a train", Toast.LENGTH_SHORT).show();
-                            } else if (clientName.getText().toString().equals("") && email.getText().toString().equals("") && phone.getText().toString().equals("")) {
-                                Toast.makeText(CreateBookingActivity.this, "Fill all details", Toast.LENGTH_SHORT).show();
-                            } else {
-                                // The user has selected a valid train, continue with booking creation
-                                createBooking();
-                            }
+                            createBooking();
                         }
                     });
 
@@ -266,7 +260,8 @@ public class CreateBookingActivity extends AppCompatActivity {
         trainDropdown.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
-                if (position == 0){
+                selectedTrain = trainDropdown.getSelectedItem().toString();
+                if (position == 0) {
                     selectedTrainId = dt.get(position);
                 } else {
                     selectedTrainId = dt.get(position - 1);
@@ -282,7 +277,7 @@ public class CreateBookingActivity extends AppCompatActivity {
 
     // Function to display the bookingModel policy information
     private void showActionsAlert() {
-        String alertMessage = "a. Create new reservations (reservation date within 30 days from bookingModel date, maximum 4 reservations per one person).\n\n" +
+        String alertMessage = "a. Create new reservations (reservation date within 30 days from booking date, maximum 4 reservations per one person).\n\n" +
                 "b. Update reservations (at least 5 days before the reservation date).\n\n" +
                 "c. Cancel reservations (at least 5 days before the reservation date).";
 
@@ -303,11 +298,6 @@ public class CreateBookingActivity extends AppCompatActivity {
 
     // Function to create a bookingModel
     private void createBooking() {
-        String selectedValue = "";
-        if (trainDropdown.getSelectedItem() != null) {
-            selectedValue = trainDropdown.getSelectedItem().toString();
-        }
-
         bookingModel u = new bookingModel();
         u.setRfid(nic);
         u.setTid(uid);
@@ -323,14 +313,14 @@ public class CreateBookingActivity extends AppCompatActivity {
         call.enqueue(new Callback<String>() {
             @Override
             public void onResponse(Call<String> call, Response<String> response1) {
-                Intent intent = new Intent(getApplicationContext(), ViewBookingsActivity.class);
-                startActivity(intent);
-                Toast.makeText(CreateBookingActivity.this, "Booking Created", Toast.LENGTH_SHORT).show();
+                Toast.makeText(CreateBookingActivity.this, "Booking Failed, Refer the Booking Policy", Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void onFailure(Call<String> call, Throwable t) {
-                Toast.makeText(CreateBookingActivity.this, "Booking Failed, Refer the Booking Policy~", Toast.LENGTH_SHORT).show();
+                Toast.makeText(CreateBookingActivity.this, "Booking Successful", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(getApplicationContext(), ViewBookingsActivity.class);
+                startActivity(intent);
             }
         });
     }

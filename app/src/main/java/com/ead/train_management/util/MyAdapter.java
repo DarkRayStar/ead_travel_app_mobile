@@ -56,7 +56,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
             // Create a confirmation dialog before deleting
             AlertDialog.Builder builder = new AlertDialog.Builder(viewBookingsActivity);
             builder.setTitle("Confirm Cancellation");
-            builder.setMessage("Are you sure you want to cancel this bookingModel?");
+            builder.setMessage("Are you sure you want to cancel this booking?");
 
             builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                 boolean violateFlag = true;
@@ -69,12 +69,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
                     data.enqueue(new Callback<String>() {
                         @Override
                         public void onResponse(Call<String> call1, Response<String> response1) {
-                            if (response1.isSuccessful() && response1.body() != null) {
-                                violateFlag = false;
-                                dataList.remove(position);
-                                notifyItemRemoved(position);
-                                notifyItemRangeChanged(position, dataList.size());
-                            }
+                            Toast.makeText(holder.itemView.getContext(), "Cancellation failed, Please refer the Policy", Toast.LENGTH_SHORT).show();
                         }
 
                         @Override
@@ -87,9 +82,6 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
                         }
 
                     });
-                    if(violateFlag){
-                        Toast.makeText(holder.itemView.getContext(), "Cancellation Failed, Refer the Policy", Toast.LENGTH_SHORT).show();
-                    }
                 }
             });
 

@@ -17,11 +17,11 @@ public class userResponseModel {
 
      @SerializedName("firstName")
      @Expose
-     private String fname;
+     private String firstName;
 
      @SerializedName("lastName")
      @Expose
-     private String lname;
+     private String lastName;
 
      @SerializedName("phoneNumber")
      @Expose
@@ -61,20 +61,20 @@ public class userResponseModel {
           this.nic = nic;
      }
 
-     public String getFname() {
-          return fname;
+     public String getFirstName() {
+          return firstName;
      }
 
-     public void setFname(String fname) {
-          this.fname = fname;
+     public void setFirstName(String firstName) {
+          this.firstName = firstName;
      }
 
-     public String getLname() {
-          return lname;
+     public String getLastName() {
+          return lastName;
      }
 
-     public void setLname(String lname) {
-          this.lname = lname;
+     public void setLastName(String lastName) {
+          this.lastName = lastName;
      }
 
      public String getPhone() {

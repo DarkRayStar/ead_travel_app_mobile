@@ -109,8 +109,8 @@ public class ViewBookingsActivity extends AppCompatActivity {
                     // Retrieve the list of bookings from the API response
                     List<viewBookingModel> dataList = response1.body();
 
-                    // Remove bookings where "isCc" field is true (if needed)
-                    dataList.removeIf(viewBookingModel::isCc);
+                    // Remove bookings where "isVisible" field is true (if needed)
+                    dataList.removeIf(viewBookingModel::getIsVisible);
 
                     // Format the dates in "yyyy-MM-dd" format
                     SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");

@@ -51,9 +51,7 @@ public class UserProfileActivity extends AppCompatActivity {
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
         bottomNavigationView.setSelectedItemId(R.id.home);
 
-
         bottomNavigationView.setOnNavigationItemSelectedListener(item -> {
-
             switch (item.getItemId()) {
                 case R.id.book:
                     startActivity(new Intent(getApplicationContext(), CreateBookingActivity.class));
@@ -68,7 +66,6 @@ public class UserProfileActivity extends AppCompatActivity {
             }
             return false;
         });
-
 
         firstName = findViewById(R.id.updateFirstName);
         lastName = findViewById(R.id.updateLastName);
@@ -99,22 +96,17 @@ public class UserProfileActivity extends AppCompatActivity {
         if (cursor.moveToFirst()) {
             nic = cursor.getString(cursor.getColumnIndex("nic"));
             uid = cursor.getString(cursor.getColumnIndex("uid"));
-
         }
-
 
         Call<userResponseModel> data = loginService.getUserProfile(nic);
 
-        data.enqueue(new Callback<userResponseModel>() {
+        data.enqueue(new Callback<>() {
             @Override
             public void onResponse(Call<userResponseModel> call1, Response<userResponseModel> response1) {
-
                 if (response1.isSuccessful() && response1.body() != null) {
-
                     userResponseModel res = response1.body();
-
-                    firstName.setText(res.getFname());
-                    lastName.setText(res.getLname());
+                    firstName.setText(res.getFirstName());
+                    lastName.setText(res.getLastName());
                     phone.setText(res.getPhone());
                     date.setText(res.getDate());
                 } else {
@@ -124,7 +116,6 @@ public class UserProfileActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<userResponseModel> call, Throwable t) {
-
                 Toast.makeText(UserProfileActivity.this, "Error", Toast.LENGTH_SHORT).show();
             }
         });
@@ -152,7 +143,7 @@ public class UserProfileActivity extends AppCompatActivity {
                     builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            // User canceled, do nothing
+
                         }
                     });
 
@@ -162,18 +153,15 @@ public class UserProfileActivity extends AppCompatActivity {
                 }
             }
         });
-
-
     }
 
-    // Method to update userModel profile data
     private void updateUserProfile() {
         userResponseModel u = new userResponseModel();
         u.setAcc(true);
         u.setNic(nic);
         u.setPhone(phone.getText().toString());
-        u.setFname(firstName.getText().toString());
-        u.setLname(lastName.getText().toString());
+        u.setFirstName(firstName.getText().toString());
+        u.setLastName(lastName.getText().toString());
         u.setDate(date.getText().toString());
         u.setId(uid);
 
@@ -197,7 +185,6 @@ public class UserProfileActivity extends AppCompatActivity {
         });
     }
 
-    // method to logout function with the confirmation alert
     public void LogOut(View view) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Confirm Logout");
@@ -233,17 +220,16 @@ public class UserProfileActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-
     public void Disable(View view) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Confirm Disable");
-        builder.setMessage("Are you sure you want to disableAccountModel your account?");
+        builder.setMessage("Are you sure you want to disable your account?");
 
         // Add a positive button to confirm disabling
         builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                // User confirmed, disableAccountModel the account
+                // User confirmed, disable the account
                 disableAccount(view);
             }
         });
@@ -288,5 +274,4 @@ public class UserProfileActivity extends AppCompatActivity {
             }
         });
     }
-
 }

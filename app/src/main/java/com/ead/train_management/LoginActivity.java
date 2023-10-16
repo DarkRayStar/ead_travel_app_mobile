@@ -80,7 +80,7 @@ public class LoginActivity extends AppCompatActivity {
                                                     Toast.makeText(LoginActivity.this, "Error", Toast.LENGTH_SHORT).show();
                                                 }
                                             } else {
-                                                Toast.makeText(LoginActivity.this, "Account is Disabled or Network Error", Toast.LENGTH_SHORT).show();
+                                                Toast.makeText(LoginActivity.this, "Account is Disabled or Invalid Credentials", Toast.LENGTH_SHORT).show();
                                             }
                                         } else {
                                             Toast.makeText(LoginActivity.this, "Error", Toast.LENGTH_SHORT).show();
@@ -96,7 +96,7 @@ public class LoginActivity extends AppCompatActivity {
                                 Toast.makeText(LoginActivity.this, "Wrong Account Type", Toast.LENGTH_SHORT).show();
                             }
                         } else {
-                            Toast.makeText(LoginActivity.this, "Account is Disabled or Network Error", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(LoginActivity.this, "Account is disabled, contact Back-Office", Toast.LENGTH_SHORT).show();
                         }
                     }
 

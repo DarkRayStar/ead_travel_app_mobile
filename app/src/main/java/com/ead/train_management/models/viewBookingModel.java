@@ -33,10 +33,9 @@ public class viewBookingModel {
     @Expose
     private boolean isCancelled;
 
-    // Add back the isCc field
     @SerializedName("isCc")
     @Expose
-    private boolean isCc;
+    private boolean isVisible;
 
     public String getId() {
         return id;
@@ -94,12 +93,12 @@ public class viewBookingModel {
         isCancelled = cancelled;
     }
 
-    public boolean isCc() {
-        return isCc;
+    public boolean getIsVisible() {
+        return isVisible;
     }
 
-    public void setCc(boolean cc) {
-        isCc = cc;
+    public void setIsVisible(boolean visible) {
+        this.isVisible = visible;
     }
 
     // Inner class to represent the booked train details
