@@ -177,7 +177,7 @@ public class UserProfileActivity extends AppCompatActivity {
         u.setDate(date.getText().toString());
         u.setId(uid);
 
-        Call<userResponseModel> call = loginService.Update(u);
+        Call<userResponseModel> call = loginService.updateProfile(u);
         call.enqueue(new Callback<userResponseModel>() {
             @Override
             public void onResponse(Call<userResponseModel> call, Response<userResponseModel> response) {
@@ -264,7 +264,7 @@ public class UserProfileActivity extends AppCompatActivity {
     private void disableAccount(View view) {
         disableAccountModel d = new disableAccountModel();
         d.setAcc(false);
-        Call<userResponseModel> data = loginService.Dis(nic, d);
+        Call<userResponseModel> data = loginService.disableAccount(nic, d);
 
         data.enqueue(new Callback<userResponseModel>() {
             @Override

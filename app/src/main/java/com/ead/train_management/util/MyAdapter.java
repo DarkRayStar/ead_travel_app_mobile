@@ -48,10 +48,11 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, @SuppressLint("RecyclerView") int position) {
         viewBookingModel item = dataList.get(position);
-        holder.textViewName.setText("Name: " + item.getName());
-        holder.textViewName2.setText("Date: " + item.getDate());
-        holder.textViewName3.setText("Tickets: " + String.valueOf(item.getNum()));
-        holder.buttonDelete.setOnClickListener(v -> {
+        holder.clientNameView.setText("Name: " + item.getName());
+        holder.bookingDateView.setText("Date: " + item.getDate());
+        holder.numberOfTicketsView.setText("Tickets: " + item.getNum());
+        holder.trainNameView.setText("Train: " + item.getBookedTrain().getTrainName());
+        holder.cancelBookingButton.setOnClickListener(v -> {
             // Create a confirmation dialog before deleting
             AlertDialog.Builder builder = new AlertDialog.Builder(viewBookingsActivity);
             builder.setTitle("Confirm Cancellation");
@@ -106,17 +107,19 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        TextView textViewName;
-        TextView textViewName2;
-        TextView textViewName3;
-        Button buttonDelete;
+        TextView clientNameView;
+        TextView bookingDateView;
+        TextView numberOfTicketsView;
+        TextView trainNameView;
+        Button cancelBookingButton;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            textViewName = itemView.findViewById(R.id.vname);
-            textViewName2 = itemView.findViewById(R.id.vdate);
-            textViewName3 = itemView.findViewById(R.id.vnum);
-            buttonDelete = itemView.findViewById(R.id.buttonDelete);
+            clientNameView = itemView.findViewById(R.id.clientNameView);
+            bookingDateView = itemView.findViewById(R.id.bookingDateView);
+            numberOfTicketsView = itemView.findViewById(R.id.numOfTicketsView);
+            trainNameView = itemView.findViewById(R.id.trainName);
+            cancelBookingButton = itemView.findViewById(R.id.buttonDelete);
         }
     }
 }

@@ -20,7 +20,7 @@ public class bookingModel {
      @Expose
      private String  phone;
 
-     @SerializedName("trainModel")
+     @SerializedName("train")
      @Expose
      private String  train;
 

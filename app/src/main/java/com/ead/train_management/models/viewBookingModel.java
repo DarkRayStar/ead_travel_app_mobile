@@ -5,37 +5,38 @@ import com.google.gson.annotations.SerializedName;
 
 public class viewBookingModel {
 
-
     @SerializedName("id")
     @Expose
-    private String  id;
+    private String id;
+
     @SerializedName("travallerName")
     @Expose
-    private String  name;
+    private String name;
 
     @SerializedName("noOfPassenger")
     @Expose
-    private int  num;
+    private int num;
 
     @SerializedName("emailAddress")
     @Expose
-    private String  email;
+    private String email;
+
+    @SerializedName("bookedTrain")
+    @Expose
+    private BookedTrain bookedTrain;
 
     @SerializedName("reservationDate")
     @Expose
-    private String  date;
-
-    public boolean isCc() {
-        return cc;
-    }
-
-    public void setCc(boolean cc) {
-        this.cc = cc;
-    }
+    private String date;
 
     @SerializedName("isCancelled")
     @Expose
-    private boolean  cc;
+    private boolean isCancelled;
+
+    // Add back the isCc field
+    @SerializedName("isCc")
+    @Expose
+    private boolean isCc;
 
     public String getId() {
         return id;
@@ -69,11 +70,50 @@ public class viewBookingModel {
         this.email = email;
     }
 
+    public BookedTrain getBookedTrain() {
+        return bookedTrain;
+    }
+
+    public void setBookedTrain(BookedTrain bookedTrain) {
+        this.bookedTrain = bookedTrain;
+    }
+
     public String getDate() {
         return date;
     }
 
     public void setDate(String date) {
         this.date = date;
+    }
+
+    public boolean isCancelled() {
+        return isCancelled;
+    }
+
+    public void setCancelled(boolean cancelled) {
+        isCancelled = cancelled;
+    }
+
+    public boolean isCc() {
+        return isCc;
+    }
+
+    public void setCc(boolean cc) {
+        isCc = cc;
+    }
+
+    // Inner class to represent the booked train details
+    public static class BookedTrain {
+        @SerializedName("trainName")
+        @Expose
+        private String trainName;
+
+        public String getTrainName() {
+            return trainName;
+        }
+
+        public void setTrainName(String trainName) {
+            this.trainName = trainName;
+        }
     }
 }

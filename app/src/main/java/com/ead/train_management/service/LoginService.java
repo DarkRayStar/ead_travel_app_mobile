@@ -26,13 +26,13 @@ public interface LoginService {
     Call<userResponseModel> getUserProfile(@Path("id") String nic);
 
     @POST("api/TravelerManagement/")
-    Call<userResponseModel> Reg(@Body userModel u);
+    Call<userResponseModel> registerUser(@Body userModel u);
 
     @POST("api/TravelerManagement/")
-    Call<userResponseModel> Update(@Body userResponseModel u);
+    Call<userResponseModel> updateProfile(@Body userResponseModel u);
 
     @PUT("api/TravelerManagement/{id}")
-    Call<userResponseModel> Dis(@Path("id") String nic , @Body disableAccountModel db);
+    Call<userResponseModel> disableAccount(@Path("id") String nic , @Body disableAccountModel db);
 
 }
 
